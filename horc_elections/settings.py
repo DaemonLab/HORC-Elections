@@ -65,11 +65,10 @@ DATABASES = {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     },
-    "heroku": dj_database_url.config(),
+    "remote": dj_database_url.config(),
 }
 
-default_database = env('DJANGO_DATABASE', default='local')
-DATABASES['default'] = DATABASES[default_database]
+DATABASES["default"] = DATABASES["remote" if ('DATABASE_URL' in env) else "local"]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -118,7 +117,7 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-SITE_ID = 3
+SITE_ID = 1
 LOGIN_URL = "/accounts/google/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGIN_EXEMPT_URLS = ["/admin/*"]
